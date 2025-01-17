@@ -3,10 +3,11 @@ import { arrow_icon, logo } from "../assets"
 
 function Navbar() {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  
   return (
     <div className="w-full flex justify-between items-center p-4 sm:p-6 sm:px-24 absolute top-0">
-        <img src={logo} alt="" className="w-28 sm:w-32" />
+        <img onClick={() => navigate('/')} src={logo} alt="" className="w-28 sm:w-32" />
 
         <button onClick={() => navigate('/login')} className="
             flex items-center gap-2 border border-gray-500 
