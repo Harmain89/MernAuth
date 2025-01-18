@@ -1,9 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import { EmailVerify, Home, Login, ResetPassword } from './pages'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <div>
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

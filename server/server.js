@@ -13,7 +13,12 @@ const port = process.env.PORT || 4000;
 app.use(express.json({limit: "16kb"}))
 // app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(cookieParser())
-app.use(cors({credentials: true}))
+
+const allowedOrigins = [
+    'http://localhost:5173'
+]
+
+app.use(cors({credentials: true, origin: allowedOrigins}))
 
 // API Endpoint
 app.get('/', (req, res) => {

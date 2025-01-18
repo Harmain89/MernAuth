@@ -1,14 +1,64 @@
-import React, { useState } from "react"
+import React from "react"
 import { lock_icon, logo, mail_icon, person_icon } from "../assets"
 import { useNavigate } from "react-router-dom"
+import { AppContext } from "../contexts/AppContext.jsx";
+import axios from 'axios'
+import { toast } from "react-toastify";
 
 function Login() {
 
     const navigate = useNavigate();
+
+    const { backendUrl, setIsLoggedIn } = React.useContext(AppContext)
+
     const [state, setState] = React.useState('Sign Up')
     const [name, setName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+
+    const onSubmitHandler = async (e) => {
+        try {
+            e.preventDefault()
+
+            axios.defaults.withCredentials = true
+
+            if(state === 'Sign Up') {
+                
+                const { data } = await axios.post(backendUrl + '/api/auth/register', {
+                    name,
+                    email,
+                    password
+                })
+
+                if(data.success) {
+                    setIsLoggedIn(true)
+                    navigate('/')
+                } else {
+                    // alert(data.message)
+                    toast.error(data.message)
+                }
+                
+            } else {
+                
+                const { data } = await axios.post(backendUrl + '/api/auth/login', {
+                    email,
+                    password
+                })
+
+                if(data.success) {
+                    setIsLoggedIn(true)
+                    navigate('/')
+                } else {
+                    // alert(data.message)
+                    toast.error(data.message)
+                }
+                //
+            }
+            
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400">
@@ -22,7 +72,7 @@ function Login() {
                 {state === 'Sign Up' ? 'Create your account' : 'Login to your account'}
             </p>
 
-            <form>
+            <form onSubmit={onSubmitHandler}>
                 {state === 'Sign Up' && (<div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
                     <img src={person_icon} alt="" />
                     <input onChange={(e) => setName(e.target.value)} value={name} className="bg-transparent outline-none text-white" type="text" placeholder="Full Name" required />
@@ -52,7 +102,7 @@ function Login() {
                 ) : (
 
                 <p className="text-gray-400 text-center text-xs mt-4">
-                    Don't have an account?{' '}
+                    Do not have an account?{' '}
                     <span onClick={() => setState('Sign Up')} className="text-blue-400 cursor-pointer underline">Sign Up</span>
                 </p>
                 )
