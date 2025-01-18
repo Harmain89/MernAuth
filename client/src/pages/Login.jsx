@@ -1,11 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import { lock_icon, logo, mail_icon, person_icon } from "../assets"
 import { useNavigate } from "react-router-dom"
 
 function Login() {
 
     const navigate = useNavigate();
-    const [state, setState] = React.useState('Sign In')
+    const [state, setState] = React.useState('Sign Up')
+    const [name, setName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400">
@@ -22,19 +25,20 @@ function Login() {
             <form>
                 {state === 'Sign Up' && (<div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
                     <img src={person_icon} alt="" />
-                    <input className="bg-transparent outline-none text-white" type="text" placeholder="Full Name" required />
+                    <input onChange={(e) => setName(e.target.value)} value={name} className="bg-transparent outline-none text-white" type="text" placeholder="Full Name" required />
                 </div>) }
                 
                 <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
                     <img src={mail_icon} alt="" />
-                    <input className="bg-transparent outline-none text-white" type="email" placeholder="Email" required />
+                    <input onChange={(e) => setEmail(e.target.value)} value={email} className="bg-transparent outline-none text-white" type="email" placeholder="Email" required />
                 </div>
                 <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
                     <img src={lock_icon} alt="" />
-                    <input className="bg-transparent outline-none text-white" type="Password" placeholder="Password" required />
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} className="bg-transparent outline-none text-white" type="Password" placeholder="Password" required />
                 </div>
 
-                <p className="mb-4 text-indigo-500 cursor-pointer">Forgot Password?</p>
+                <p onClick={() => navigate('/reset-password')} className="mb-4 text-indigo-500 cursor-pointer">Forgot Password?</p>
+
                 <button type="submit" className="w-full py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-900 text-white font-medium">
                     {state}
                 </button>
