@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import { consoleCheck } from "../utils/Miscellenous.js";
 
 
 export const register = async (req, res) => {
@@ -71,7 +72,7 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     
     try {
-    
+        
         if([email, password].some((field) => !field?.trim?.())) {
             return res.json({
                 success: false,
@@ -80,34 +81,35 @@ export const login = async (req, res) => {
         }
         
         const user = await userModel.findOne({email})
-
+        // consoleCheck(user)
+    
         if(!user) {
             return res.json({
                 success: false,
                 message: "Invalid Email"
             })
         }
-
+    
         const isMatch = await bcrypt.compare(password, user?.password)
-
+    
         if(!isMatch) {
             return res.json({
                 success: false,
                 message: "Invalid Password"
             })
         }
-
+    
         const token = jwt.sign({ id: user?.id }, process.env.JWT_SECRET, {
             expiresIn: '7d'
         })
-
+    
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-
+    
         return res.json({
             success: true
         })
@@ -135,7 +137,7 @@ export const logout = (req, res) => {
         })
         
     } catch (error) {
-        return res.status(error.code || 500).json({
+        return res.json({
             success: false,
             message: error.message
         })
@@ -177,7 +179,7 @@ export const sendVerifyOtp = async (req, res) => {
         })
         
     } catch (error) {
-        return res.status(error.code || 500).json({
+        return res.json({
             success: false,
             message: error.message
         })
@@ -357,7 +359,7 @@ export const resetPassword = async (req, res) => {
         })
         
     } catch (error) {
-        return res.status(error.code || 500).json({
+        return res.status(500).json({
             success: false,
             message: error.message
         })
