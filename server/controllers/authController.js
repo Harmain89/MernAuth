@@ -233,7 +233,7 @@ export const verifyEmail = async (req, res) => {
         })
         
     } catch (error) {
-        return res.status(error.code || 500).json({
+        return res.json({
             success: false,
             message: error.message
         })
