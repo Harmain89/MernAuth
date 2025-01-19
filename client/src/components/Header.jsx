@@ -1,7 +1,13 @@
 
+import React from 'react'
 import { hand_wave, header_img } from '../assets'
+import { AppContext } from '../contexts/AppContext.jsx'
 
 function Header() {
+
+    const { userData } = React.useContext(AppContext)
+    // console.log(userData)
+
   return (
     <>
         <div className='flex flex-col items-center mt-20 px-4 text-center text-gray-800'>
@@ -9,7 +15,7 @@ function Header() {
             <img src={header_img} alt='' className='w-36 h-36 rounded-full mb-6' />
 
             <h1 className='flex items-center gap-2 text-xl sm:text-3xl font-medium mb-2'>
-                Hey Developer 
+                Hey {userData ? userData.name : 'Developer' }!
                 <img src={hand_wave} alt='' />
             </h1>
 

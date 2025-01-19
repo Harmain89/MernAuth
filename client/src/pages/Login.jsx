@@ -9,7 +9,7 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const { backendUrl, setIsLoggedIn } = React.useContext(AppContext)
+    const { backendUrl, setIsLoggedIn, getUserData } = React.useContext(AppContext)
 
     const [state, setState] = React.useState('Sign Up')
     const [name, setName] = React.useState('')
@@ -32,6 +32,7 @@ function Login() {
 
                 if(data.success) {
                     setIsLoggedIn(true)
+                    getUserData()
                     navigate('/')
                 } else {
                     // alert(data.message)
@@ -47,6 +48,7 @@ function Login() {
 
                 if(data.success) {
                     setIsLoggedIn(true)
+                    getUserData()
                     navigate('/')
                 } else {
                     // alert(data.message)
@@ -56,7 +58,7 @@ function Login() {
             }
             
         } catch (error) {
-            console.log(error.message)
+            console.log('logging and signing up: ' + error.message)
         }
     }
 
