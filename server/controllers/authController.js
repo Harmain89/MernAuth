@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
 import { consoleCheck } from "../utils/Miscellenous.js";
+import { EMAIL_VERIFY_TEMPLATE, PASSWORD_RESET_TEMPLATE } from "../config/emailTemplates.js";
 
 
 export const register = async (req, res) => {
@@ -169,7 +170,8 @@ export const sendVerifyOtp = async (req, res) => {
             from: process.env.SENDER_Email,
             to: user?.email,
             subject: 'Account Verification OTP',
-            text: `Your OTP is ${otp}. Verify your account using this OTP.`
+            // text: `Your OTP is ${otp}. Verify your account using this OTP.`,
+            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
         }
         await transporter.sendMail(mailOptions);
 
@@ -261,7 +263,7 @@ export const isAuthenticated = async (req, res) => {
 export const sendResetOtp = async (req, res) => {
 
     const { email } = req.body;
-    console.warn('jkhkkhkhjk')
+    // console.warn('jkhkkhkhjk')
     if(!email) {
         return res.status(200).json({
             success: false,
@@ -291,7 +293,8 @@ export const sendResetOtp = async (req, res) => {
             from: process.env.SENDER_Email,
             to: user?.email,
             subject: 'Password Reset OTP',
-            text: `Your OTP is ${otp}. Reset your account using this OTP.`
+            // text: `Your OTP is ${otp}. Reset your account using this OTP.`,
+            html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
         }
 
         const info = await transporter.sendMail(mailOptions)
