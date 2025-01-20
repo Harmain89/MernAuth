@@ -52,7 +52,7 @@ function Login() {
                     navigate('/')
                 } else {
                     // alert(data.message)
-                    toast.error(`kjhjkh: ${data.message}`)
+                    toast.error(`${data.message}`)
                 }
             }
             

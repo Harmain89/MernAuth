@@ -261,6 +261,7 @@ export const isAuthenticated = async (req, res) => {
 export const sendResetOtp = async (req, res) => {
 
     const { email } = req.body;
+    console.warn('jkhkkhkhjk')
     if(!email) {
         return res.status(200).json({
             success: false,
@@ -301,7 +302,7 @@ export const sendResetOtp = async (req, res) => {
         })
 
     } catch (error) {
-        return res.status(error.code || 500).json({
+        return res.json({
             success: false,
             message: error.message
         })
