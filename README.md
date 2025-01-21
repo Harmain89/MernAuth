@@ -140,6 +140,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Notes 📝
 - Active development is ongoing for further enhancements.
-- Please feel free to report issues or request features in the [issues section](https://github.com/your-username/your-repo-name/issues).
+- Please feel free to report issues or request features in the [issues section](https://github.com/Harmain89/MernAuth.git/issues).
 
 Enjoy building with this comprehensive MERN authentication setup! 🎉
